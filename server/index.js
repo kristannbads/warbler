@@ -5,13 +5,16 @@ const cors = require("cors");
 const app = express();
 const errorHandler = require("./handlers/error")
 const mongoose = require("mongoose");
-const PORT = 3001;
+const PORT = 3000;
 const authRoutes = require("./routes/auth");
+const messagesRoutes = require("./routes/messages");
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json());
 
-mongoose.connect("mongodb://localhost/warbler");
+
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
@@ -20,6 +23,7 @@ db.once("open", () => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/user/:id/messages", messagesRoutes);
 
 
 app.all("*", (req, res, next) => {
