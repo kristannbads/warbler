@@ -2,7 +2,7 @@ const db = require("../models");
 const jwt = require("jsonwebtoken");
 
 
-exports.signin = async function (request, response, next) {
+module.exports.signin = async function (request, response, next) {
     try {
         const user = await db.User.findOne({
             email: request.body.email
@@ -11,11 +11,7 @@ exports.signin = async function (request, response, next) {
         const isMatch = await user.comparePassword(request.body.password);
 
         if (isMatch) {
-            const token = jwt.sign({
-                id,
-                username,
-                profileImageUrl,
-            }, process.env.SECRET_KEY);
+            const token = generateToken(id, username, profileImageUrl);
 
             return response.status(200).json({
                 id,
@@ -40,19 +36,15 @@ exports.signin = async function (request, response, next) {
 
 }
 
-exports.signup = async function (request, response, next) {
+module.exports.signup = async function (request, response, next) {
     try {
 
-        const user = await db.User.create(request.body);
+        const user = new db.User(request.body);
+
 
         const { id, username, profileImageUrl } = user;
-        const token = jwt.sign({
-            id,
-            username,
-            profileImageUrl
-        }, process.env.SECRET_KEY
-        );
-        console.log(token)
+        const token = generateToken(id, username, profileImageUrl);
+        await user.save();
         return response.status(200).json({
             id,
             username,
@@ -60,10 +52,7 @@ exports.signup = async function (request, response, next) {
             token
         });
 
-
     } catch (error) {
-        // see what king of err
-        // 11000 is a validation error
         if (error.code === 11000) {
             error.message = "Sorry, that username and/or email is taken"
         }
@@ -71,8 +60,15 @@ exports.signup = async function (request, response, next) {
             status: 400,
             message: error.message
         });
-        // if it is a  certain error
-        //respond if email or username is taken
-        // generic 404
+
     }
 };
+
+function generateToken(id, username, profileImageUrl) {
+    const token = jwt.sign(
+        { id, username, profileImageUrl },
+        process.env.SECRET_KEY
+    );
+
+    return token;
+}

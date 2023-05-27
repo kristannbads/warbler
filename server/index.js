@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const PORT = 3000;
 const authRoutes = require("./routes/auth");
 const messagesRoutes = require("./routes/messages");
+const { loginRequired, ensureCorrectUser } = require("./middleware/auth")
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -23,7 +24,7 @@ db.once("open", () => {
 });
 
 app.use("/api/auth", authRoutes);
-app.use("/api/user/:id/messages", messagesRoutes);
+app.use("/api/user/:id/messages", loginRequired, ensureCorrectUser, messagesRoutes);
 
 
 app.all("*", (req, res, next) => {
