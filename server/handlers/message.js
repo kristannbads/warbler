@@ -33,6 +33,22 @@ module.exports.createMessage = async function (request, response, next) {
 
 }
 
-module.exports.getMessage = async function (request, response, next) { }
+module.exports.getMessage = async function (request, response, next) {
 
-module.exports.deleteMessage = async function (request, response, next) { }
+    try {
+        const message = await db.Message.findById(request.params.messageId)
+        return response.status(200).json(message)
+    } catch (error) {
+        return next(error);
+    }
+}
+
+module.exports.deleteMessage = async function (request, response, next) {
+    try {
+        const message = await db.Message.findById(request.params.messageId)
+        await message.deleteOne()
+        return response.status(200).json(message)
+    } catch (error) {
+        return next(error);
+    }
+}
