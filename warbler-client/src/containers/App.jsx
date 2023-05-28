@@ -1,18 +1,16 @@
-import { useState } from 'react'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import store from '../store';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <p>HEllo</p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+const App = () => (
+  <Provider store={store}>
+    <Router>
+      <div>Hello world!</div>
+    </Router>
+  </Provider>
+)
 
-export default App
+export default App;
