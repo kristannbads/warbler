@@ -1,9 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from '../store';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Navbar from './Navbar';
+import Main from './Main';
 
 
 const App = () => (
@@ -11,6 +11,7 @@ const App = () => (
     <Router>
       <div className='onboarding'>
         <Navbar />
+        <Main />
       </div>
     </Router>
   </Provider>
