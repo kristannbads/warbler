@@ -13,7 +13,7 @@ const messageSchema = new mongoose.Schema({
     },
 },
     {
-        timestamp: true
+        timestamps: true
     }
 );
 
