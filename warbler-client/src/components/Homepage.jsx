@@ -1,8 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import currentUser from '../store/reducers/currentUser';
 import MessageTimeline from './MessageTimeline';
-import MessageItem from './MessageItem';
 
 const Homepage = ({ currentUser }) => {
     if (!currentUser.isAuthenticated) {
@@ -18,7 +16,9 @@ const Homepage = ({ currentUser }) => {
     }
     return (
         <div>
-            <MessageTimeline />
+            <MessageTimeline
+                profileImageUrl={currentUser.user.profileImageUrl}
+                username={currentUser.user.username} />
         </div>
     )
 
