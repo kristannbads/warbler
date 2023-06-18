@@ -21,7 +21,7 @@ class Navbar extends Component {
                     {this.props.currentUser.isAuthenticated ? (
                         <ul className='nav navbar-nav navbar-right'>
                             <li>
-                                <Link to='/'> Message</Link>
+                                <Link to={`/user/${this.props.currentUser.user.id}/messages/new`}> New Message</Link>
                             </li>
                             <li>
                                 <a onClick={userLogout}> Logout</a>

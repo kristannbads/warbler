@@ -24,10 +24,15 @@ export default class AuthForm extends Component {
 
         try {
             await this.props.onAuth(authType, this.state);
+            if (localStorage.length) {
+                navigate('/');
+                console.log("Logged In!");
+            } else {
+                navigate('/signin');
+            }
 
-            navigate('/');
-            console.log("Logged In!");
         } catch (error) {
+            navigate('/signin');
             return console.error("Authentication Error:", error);
         }
     };

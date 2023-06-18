@@ -4,7 +4,7 @@ const BASE_URL = "http://localhost:3000"
 export function setTokenHeader(token) {
     if (token) {
         const data = axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        console.log(data)
+
     } else {
         delete axios.defaults.headers.common['Authorization'];
     }
